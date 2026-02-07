@@ -1,0 +1,11 @@
+{
+  "name": "perplexity",
+  "api_endpoints": {
+    "code": "https://perplexity.ai/api/v2",
+    "assets": "https://perplexity.ai/storage"
+  },
+  "security": {
+    "auth": "oauth2",
+    "encryption": "chacha20-poly1305"
+  }
+}
