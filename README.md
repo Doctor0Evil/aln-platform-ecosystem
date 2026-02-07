@@ -1,3 +1,19 @@
+# ALN Platform Ecosystem
+
+This repository implements a production-ready ALN-driven platform adapter ecosystem for AI platforms, legacy systems, and emerging runtimes.
+
+It provides:
+
+- Dynamic **platform** detection from HTTP headers and manual overrides.
+- A unified adapter registry and template system.
+- Cross-platform code execution and asset upload APIs.
+- Security sanitation policies mirroring the ALN specification.
+- Self-healing and rollback mechanisms for adapter failures.
+- CLI commands to expand platform support and reload adapters.
+
+The `aln/` directory contains the canonical ALN specs that drive the Rust implementation under `src/`.
+
+
 aln-platform-ecosystem/
 ├─ Cargo.toml
 ├─ aln-platform-ecosystem.sln                     # optional for C++/Java tooling
