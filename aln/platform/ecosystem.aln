@@ -109,7 +109,7 @@ aln adapter.reload --all
 
       security_policy: {
         encryption: "AES-256-GCM",
-        hmac: "sha3-512"
+        hmac: "hmac-sha512"
       }
 
       @ADAPT {
