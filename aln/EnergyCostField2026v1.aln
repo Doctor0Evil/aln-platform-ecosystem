@@ -1,19 +1,32 @@
 family EnergyCostField2026v1 version 1.0.0
-description Canonical energy-cost field parameters for workload placement
-columns:
-  - varid field_id coltype Utf8Id32 mandatory true
-  - varid workload_class coltype EnumWorkloadClass mandatory true
-  - varid hardware_class coltype EnumHardwareClass mandatory true
+description Canonical energy-cost field parameters for workload placement across hardware endpoints
+columns
+  - varid hardware_class coltype EnumHardware mandatory true
+  - varid workload_class coltype EnumWorkload mandatory true
   - varid pue coltype Float32 mandatory true
-  - varid cpu_efficiency coltype Float32 mandatory true
-  - varid mem_efficiency coltype Float32 mandatory true
-  - varid net_efficiency coltype Float32 mandatory true
-  - varid grid_carbon_intensity coltype Float32 mandatory true
-  - varid water_stress_index coltype Float32 mandatory true
-  - varid habitat_fragmentation coltype Float32 mandatory true
-  - varid lyap_weight_energy coltype Float32 mandatory true
-  - varid evidencehex coltype Hex64Evidence mandatory true
+  - varid cpu_eff_flops_per_watt coltype Float32 mandatory true
+  - varid mem_eff_gb_per_watt coltype Float32 mandatory true
+  - varid net_eff_mb_per_watt coltype Float32 mandatory true
+  - varid idle_power_watts coltype Float32 mandatory true
+  - varid grid_carbon_kg_per_kwh coltype Float32 mandatory true
+  - varid lyapunov_weight_energy coltype Float32 mandatory true
+  - varid non_offsettable coltype Bool mandatory true
+  - varid evidence_hex coltype Hex64Evidence mandatory true
 
-enums:
-  EnumWorkloadClass: BATCH, STREAM, INTERACTIVE, ML_TRAIN
-  EnumHardwareClass: EDGE_IOT, FOG_NODE, CLOUD_VM, HPC_CLUSTER
+enums
+  EnumHardware: EDGE_IOT, FOG_NODE, CLOUD_VM, HPC_CLUSTER
+  EnumWorkload: BATCH, STREAM, INTERACTIVE, ML_TRAIN
+
+invariants
+  invariant.energy_non_offsettable
+    for_each row row.non_offsettable == true end
+
+  invariant.lyapunov_weights_positive
+    for_each row row.lyapunov_weight_energy >= 0.0 end
+
+  invariant.pue_bounds
+    for_each row row.pue >= 1.0 && row.pue <= 2.5 end
+
+  # Ties to corridor table for normalization bands
+  invariant.corridor_binding_exists
+    exists row in ecosafety.corridors.v2 where row.varid == "r_energy" end
