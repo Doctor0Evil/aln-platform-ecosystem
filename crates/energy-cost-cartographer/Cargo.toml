@@ -1,0 +1,12 @@
+[package]
+name = "energy-cost-cartographer"
+version = "1.0.0"
+edition = "2021"
+description = "Non-actuating energy-cost mapping and KER-efficiency evaluation for EcoNet workload placement"
+license = "MIT"
+
+[dependencies]
+thiserror = "1.0"
+
+[dev-dependencies]
+quickcheck = "1.0"
