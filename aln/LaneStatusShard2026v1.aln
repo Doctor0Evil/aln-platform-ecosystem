@@ -1,0 +1,46 @@
+TITLE LaneStatusShard2026v1
+VERSION 1
+CATEGORY GOVERNANCE
+SUMMARY "Lane and KER governance status for kernels and regions."
+
+[fields]
+# Identity and linkage
+repo_name        : string   # e.g. 'EcoNet-CEIM-PhoenixWater'
+layer_name       : string   # e.g. 'CEIM/CPVM hydrology kernels'
+kernel_id        : int64    # matches kernel_identity.kernel_id
+region           : string   # e.g. 'Phoenix-AZ', '*' for global
+
+# Lane decision
+lane             : string   # 'RESEARCH','EXPPROD','PROD'
+lane_source      : string   # 'Virta-Sys:lane-governor'
+lane_reason      : string   # brief human-readable rationale
+
+# Evidence window
+window_start_utc : datetime # ISO8601
+window_end_utc   : datetime # ISO8601
+evidence_count   : int64    # number of shard_instance rows used
+
+# Aggregated KER metrics
+k_avg            : f64      # average K over window
+e_avg            : f64      # average E over window
+r_avg            : f64      # average R over window
+vt_trend         : f64      # slope of Lyapunov residual over window (<= 0 is good)
+
+# Thresholds used
+k_min_required   : f64
+e_min_required   : f64
+r_max_allowed    : f64
+
+# Governance proof
+corridor_ok      : bool     # all relevant corridors satisfied
+planes_ok        : bool     # non-offsettable planes not worsened
+topology_ok      : bool     # manifests and roles aligned
+evidence_hex     : string   # hexstamp of evidence set
+signing_did      : string   # DID of Virta-Sys signer
+
+[tags]
+qpudatashard
+governance
+lane-status
+ker
+virta-sys
