@@ -1,0 +1,19 @@
+family EnergyCostField2026v1 version 1.0.0
+description Canonical energy-cost field parameters for workload placement
+columns:
+  - varid field_id coltype Utf8Id32 mandatory true
+  - varid workload_class coltype EnumWorkloadClass mandatory true
+  - varid hardware_class coltype EnumHardwareClass mandatory true
+  - varid pue coltype Float32 mandatory true
+  - varid cpu_efficiency coltype Float32 mandatory true
+  - varid mem_efficiency coltype Float32 mandatory true
+  - varid net_efficiency coltype Float32 mandatory true
+  - varid grid_carbon_intensity coltype Float32 mandatory true
+  - varid water_stress_index coltype Float32 mandatory true
+  - varid habitat_fragmentation coltype Float32 mandatory true
+  - varid lyap_weight_energy coltype Float32 mandatory true
+  - varid evidencehex coltype Hex64Evidence mandatory true
+
+enums:
+  EnumWorkloadClass: BATCH, STREAM, INTERACTIVE, ML_TRAIN
+  EnumHardwareClass: EDGE_IOT, FOG_NODE, CLOUD_VM, HPC_CLUSTER
