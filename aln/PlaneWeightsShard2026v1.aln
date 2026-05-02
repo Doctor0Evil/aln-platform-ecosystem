@@ -1,0 +1,28 @@
+family PlaneWeightsShard2026v1 version 1.0.0
+description Per-plane Lyapunov weights and non-compensation flags for rx-Vt-KER grammar
+columns
+  - varid plane_id coltype Utf8Id32 mandatory true
+  - varid plane_name coltype EnumPlane mandatory true
+  - varid lyapunov_weight coltype Float32 mandatory true
+  - varid non_offsettable coltype Bool mandatory true
+  - varid lyap_channel coltype EnumLyapChannel mandatory true
+  - varid evidence_hex coltype Hex64Evidence mandatory true
+
+enums
+  EnumPlane: energy, carbon, biodiversity, hydraulics, materials, dataquality
+  EnumLyapChannel: energy, carbon, biodiversity, hydraulics, materials, dataquality
+
+rows
+  - "plane_energy", energy, 1.0, true, energy, "0xE1A2B3C4D5E6F7890123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"
+  - "plane_carbon", carbon, 1.2, true, carbon, "0xC1A2B3C4D5E6F7890123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"
+  - "plane_biodiv", biodiversity, 1.1, true, biodiversity, "0xB1A2B3C4D5E6F7890123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"
+  - "plane_hydro", hydraulics, 0.8, false, hydraulics, "0xH1A2B3C4D5E6F7890123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"
+  - "plane_materials", materials, 0.9, false, materials, "0xM1A2B3C4D5E6F7890123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"
+  - "plane_dataquality", dataquality, 0.7, false, dataquality, "0xDQ1A2B3C4D5E6F7890123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"
+
+invariants
+  invariant.at_least_one_plane
+    exists row in PlaneWeightsShard2026v1 end
+
+  invariant.energy_plane_is_non_offsettable
+    for_each row where row.plane_name == energy row.non_offsettable == true end
