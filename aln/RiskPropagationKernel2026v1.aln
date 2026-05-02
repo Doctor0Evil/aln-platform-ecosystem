@@ -1,0 +1,13 @@
+family RiskPropagationKernel2026v1 version 1.0.0
+description Risk propagation kernels for energy-aware placement
+columns:
+  - varid kernel_id coltype Utf8Id32 mandatory true
+  - varid risk_plane coltype EnumRiskPlane mandatory true
+  - varid propagation_fn coltype EnumPropFn mandatory true
+  - varid sensitivity_param coltype Float32 mandatory true
+  - varid corridor_row_id coltype Utf8Id32 mandatory true
+  - varid monotone_proof_hex coltype Hex64Evidence mandatory true
+
+enums:
+  EnumRiskPlane: carbon, hydraulics, biodiversity, materials, dataquality
+  EnumPropFn: LINEAR, SATURATING, THRESHOLD, PIECEWISE_AFFINE
