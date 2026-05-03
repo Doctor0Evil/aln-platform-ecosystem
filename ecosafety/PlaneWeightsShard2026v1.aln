@@ -1,0 +1,11 @@
+particle PlaneWeightsShard2026v1 {
+    contract_id       : Text;    // e.g. "PhoenixEcosafetyContinuity2026v1"
+    plane_id          : Text;    // "energy","hydraulics","biology","carbon",...
+    weight            : F32;     // w_j >= 0
+    non_offsettable   : Bool;    // true for non-offsettable planes
+    soft_band         : F32;     // soft corridor band for r_j
+    hard_band         : F32;     // hard corridor band for r_j
+    uncertainty_cap   : F32;     // max tolerated uncertainty on r_j
+    version_tag       : Text;    // "PlaneWeightsShard2026v1"
+    proof_ref_hex     : Text;    // hex link into ecosafety proofs doc
+}
