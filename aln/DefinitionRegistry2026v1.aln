@@ -1,0 +1,196 @@
+TITLE DefinitionRegistry2026v1
+VERSION 1
+CATEGORY GOVERNANCE
+
+SUMMARY
+Canonical index and governance surface for DR-1 through DR-10
+formal definitions. Binds each research direction to its DB
+schema, Lyapunov/KER coordinates, and evidence constraints.
+
+meta
+  context string VirtaSys.Ecosafety.Definitions
+  registryversion string 2026v1
+  maintainerdid string bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7
+endmeta
+
+record DefinitionEvidenceTag2026v1
+  taghex string
+  note   string
+endrecord
+
+record DefinitionContract2026v1
+  defcode       string   // DR1_SQLITE_LYAPUNOV, ...
+  scope         string   // LyapunovResidual, TopologyWaste, ...
+  dbbinding     string   // dbdefinitionregistry.sql#dr1_shard_residual_view
+  description   string
+
+  kfield        string optional
+  efield        string optional
+  rfield        string optional
+  vfield        string optional
+  lyapunovrule  string optional
+
+  canalcoord    string optional
+  velocityplane string optional
+
+  continuitycoord string optional
+  continuitygrade string optional
+
+  lpf_table     string optional
+  lpb_table     string optional
+  telemetry_table string optional
+  telemetry_window_table string optional
+
+  viewname      string optional
+endrecord
+
+section evidence
+
+DefinitionEvidenceTag2026v1
+  taghex a1f3c9b2
+  note   RMR & ATP coupling bounds
+end
+
+DefinitionEvidenceTag2026v1
+  taghex 4be79d01
+  note   Joule / thermodynamic corridor anchoring
+end
+
+DefinitionEvidenceTag2026v1
+  taghex 9cd4a7e8
+  note   Protein & nitrogen balance for long-lived workloads
+end
+
+DefinitionEvidenceTag2026v1
+  taghex 2f8c6b44
+  note   Safe cortical / node temperature deltas
+end
+
+DefinitionEvidenceTag2026v1
+  taghex 7e1da2ff
+  note   Peripheral circulation / blast-radius coupling
+end
+
+DefinitionEvidenceTag2026v1
+  taghex 5b93e0c3
+  note   Neurovascular / network-vascular analogy
+end
+
+DefinitionEvidenceTag2026v1
+  taghex d0174aac
+  note   Duty-cycle envelopes for non-actuating workloads
+end
+
+DefinitionEvidenceTag2026v1
+  taghex 6ac2f9d9
+  note   Neuromorphic / AI energy profiles
+end
+
+DefinitionEvidenceTag2026v1
+  taghex c4e61b20
+  note   Turnover kinetics / continuity grades
+end
+
+DefinitionEvidenceTag2026v1
+  taghex 8f09d5ee
+  note   Pain / harm thresholds to RoH ceiling mapping
+end
+
+endsection
+
+section contracts
+
+DefinitionContract2026v1
+  defcode     DR1_SQLITE_LYAPUNOV
+  scope       LyapunovResidual
+  dbbinding   dbdefinitionregistry.sql#dr1_shard_residual_view
+  description SQLite-only computation of Vt = Σ w_j r_j^2 per shard.
+  kfield      k_after
+  efield      e_after
+  rfield      r_after
+  vfield      vt_after
+  lyapunovrule V_after <= V_before + epsilon
+  viewname    dr1_shard_residual_view
+end
+
+DefinitionContract2026v1
+  defcode     DR2_TOPOLOGY_PENALTIES
+  scope       TopologyWaste
+  dbbinding   dbdefinitionregistry.sql#dr2_topology_waste_view
+  description Idle congestion and fragmentation penalties on shared nodes.
+  viewname    dr2_topology_waste_view
+end
+
+DefinitionContract2026v1
+  defcode     DR3_CANAL_VELOCITY
+  scope       CanalVelocity
+  dbbinding   dbdefinitionregistry.sql#dr3_canal_velocity_view
+  description Canal velocity coordinate r_canal from blast-radius metrics.
+  canalcoord  r_canal
+  velocityplane canal
+  viewname    dr3_canal_velocity_view
+end
+
+DefinitionContract2026v1
+  defcode     DR4_LARGEPARTICLE_PROFILE
+  scope       LargeParticleProfile
+  dbbinding   dbdefinitionregistry.sql#dr4_largeparticle_cost_view
+  description Chunk/hash cost profile for largeparticlefile artifacts.
+  lpf_table   largeparticlefile
+  lpb_table   largeparticleblock
+  viewname    dr4_largeparticle_cost_view
+end
+
+DefinitionContract2026v1
+  defcode     DR5_MT6883_CONTINUITY
+  scope       ContinuityGrade
+  dbbinding   dbdefinitionregistry.sql#dr5_mt6883_continuity_view
+  description Automatic MT6883 continuity score and grade.
+  continuitycoord c_mt6883
+  continuitygrade continuitygrade_auto
+  viewname        dr5_mt6883_continuity_view
+end
+
+DefinitionContract2026v1
+  defcode     DR6_PROVENANCE_COMMITMENT
+  scope       ArtifactProvenance
+  dbbinding   dbdefinitionregistry.sql#dr6_provenance_chain_view
+  description Hash-chained artifact provenance with commitment table.
+  viewname    dr6_provenance_chain_view
+end
+
+DefinitionContract2026v1
+  defcode     DR7_LANE_QUARANTINE
+  scope       LaneQuarantine
+  dbbinding   dbdefinitionregistry.sql#dr7_lane_quarantine_view
+  description Quarantine flags that never reduce lane but tighten guards.
+  viewname    dr7_lane_quarantine_view
+end
+
+DefinitionContract2026v1
+  defcode     DR8_EMERGENT_PLANES
+  scope       EcosafetyExtension
+  dbbinding   dbdefinitionregistry.sql#dr8_emergent_planes_view
+  description Registry of emergent ecosafety planes bound to extension contracts.
+  viewname    dr8_emergent_planes_view
+end
+
+DefinitionContract2026v1
+  defcode     DR9_KNOWLEDGE_WINDOW_SET
+  scope       KnowledgeEcoScore
+  dbbinding   dbdefinitionregistry.sql#dr9_knowledge_windows_view
+  description Short/medium/long knowledgeecoscore windows for rewards.
+  viewname    dr9_knowledge_windows_view
+end
+
+DefinitionContract2026v1
+  defcode     DR10_IOT_FEDERATION
+  scope       SmartCityTelemetry
+  dbbinding   dbdefinitionregistry.sql#dr10_iot_aggregates_view
+  description IoT aggregation windows feeding shardinstance safely.
+  telemetry_table        iot_telemetry_raw
+  telemetry_window_table iot_telemetry_window
+  viewname               dr10_iot_aggregates_view
+end
+
+endsection
